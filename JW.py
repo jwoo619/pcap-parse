@@ -187,7 +187,7 @@ def data_set(data,name):
         make_file(name+ip_port,result)
 
 def make_file(name,data):
-    f = open(name,'wb')
+    f = open(name+'_binary','wb')
     f.write(data)
     f.close()
 
@@ -201,4 +201,4 @@ if __name__ =='__main__':
         get_field(name)
         data = get_data()
         set_data = data_set(data,name)
-        #make_file(name,set_data)
+        os.system('mv '+name+' ./pcap/'+name)
