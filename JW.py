@@ -141,12 +141,17 @@ def data_set(data,name):
                     result += data[ip_port][0][op]
                 else:
                     result += struct.pack(">I",int(data[ip_port][0][op]))
+        result = result.ljust(250,'\xFF')
+        result = result[:250]
 
         #client key exchange
         result += struct.pack(">I",int(data[ip_port][1][0]))
         temp = data[ip_port][1][1].split(':')
         for value in temp:
             result += struct.pack(">B",int(value,16))
+        result = result.ljust(325,'\x00')
+        result = result[:325]
+
 
         #server Hello
         for op in data[ip_port][2]:
@@ -166,11 +171,17 @@ def data_set(data,name):
                     result += struct.pack(">I",int(data[ip_port][2][op],16))
                 else:
                     result += struct.pack(">I",int(data[ip_port][2][op]))
+        result = result.ljust(425,'\x00')
+        result = result[:425]
+
 
         #certificate
         temp = data[ip_port][3][0].replace(',',':').split(':') #check 2 certificate replace
         for value in temp:
             result += struct.pack(">B",int(value,16))
+
+        result = result.ljust(1500,'\x00')
+        result = result[:1500]
 
         #server key exchange
         for op in data[ip_port][4]:
@@ -184,6 +195,8 @@ def data_set(data,name):
                 else:
                     result += struct.pack(">I",int(data[ip_port][4][op]))
 
+        result = result.ljust(1875,'\x00')
+        result = result[:1875]
         make_file(name+ip_port,result)
 
 def make_file(name,data):
