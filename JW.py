@@ -141,7 +141,7 @@ def data_set(data,name):
                     result += data[ip_port][0][op]
                 else:
                     result += struct.pack(">I",int(data[ip_port][0][op]))
-        result = result.ljust(250,'\xFF')
+        result = result.ljust(250,'\x00')
         result = result[:250]
 
         #client key exchange
